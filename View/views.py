@@ -1,9 +1,12 @@
-
-
+from flask import jsonify
 
 from .models import User
+from View import db, app
 
 
+@app.route("/just", methods=["GET"])
 def get_name():
-    user = User.query.get(1)
-    return user.username
+    b = User(username="zhangq", email="hah1a@.com", password_hash="jijizhaha")
+    db.session.add(b)
+    db.session.commit()
+    return jsonify("yes")
