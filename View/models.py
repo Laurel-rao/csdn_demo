@@ -1,7 +1,7 @@
 #！/usr/bin/env python 
 # -*- coding:utf-8  -*-
+from View import db
 
-from manage import db
 
 class User(db.Model):
     __tablename__ = 'user'
