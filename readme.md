@@ -23,7 +23,7 @@
             SQLALCHEMY_DATABASE_URI = 'mysql+mysqlconnector://{}:{}@{}:{}/{}?charset=utf8'.\
                 format(username, password, host, port, database)
             SQLALCHEMY_TRACK_MODIFICATIONS = False
-    ```
+   ```
 
 2. 在创建 app 的文件中，创建db对象
 
@@ -57,20 +57,21 @@
 
 ## 数据库初始化
 
-1. 创建代码后 ,运行 `flask init db`
+1. 创建代码后 ,运行 `flask db init`
     - 文件夹中无 app.py 或 wsgi.py 会报错
     ```
     Usage: flask db init [OPTIONS]
-
+    
     Error: Failed to find Flask application or factory in module "app". Use "FLASK_APP=app:name to specify one.
     ```
     - 在文件目录中打开命令行，指定该文件
     ```
-        set FLASK_APP=manage.py
+        set FLASK_APP=manage.py # windows
+        export FLASK_APP=manage.py # linux
         flask db init
     ```
     - 这样就解决了
-    
+
 2. 运行 flask db migrate
     - 报错 
     ```
@@ -93,8 +94,7 @@
         
     
 3. 将数据库文件导入到数据库中 `flask db upgrade`
-   
-  
+
 4. 每次改动数据库后，都运行下面两句
 
     ```
@@ -107,7 +107,7 @@
 ## 常见报错 
 
 1. ImportError: cannot import name "db"
-    
+   
     - 将 register_blueprint 放在db的后面，就像这样
         ```
         db = SQLAlchemy(app)
@@ -220,7 +220,7 @@
 6. 多条件逻辑查询
 
     1. _and, 查询姓名包含zhan，且年龄大于16的人
-        
+       
         `User.query.filter(_and(User.username.contains("zhan"), User.age.__gt__(16)))`
     2. _not, 查询不叫zhang的所有人
         `User.query.filter(_not(User.username=="zhang"))`
@@ -228,7 +228,7 @@
         `User.query.filter(_or(User.username.contains("zhan"), User.age.__gt__(16)))`
 
 7. 筛选
-    
+   
     1. limit()
     2. order_by()
     3. offset()
@@ -237,7 +237,7 @@
 ### 改
 
 1. 通过对象.update 设置
-    
+   
     ```
     User.query.filter_by(id=3).update({"username":"zhang123"})
     db.session.commit()
@@ -252,7 +252,7 @@
     ```
     
 ### 删除
-    
+
 1. 通过 查找后删除
     ```
         User.query.filter(User.id.__gt__(3)).delete()
