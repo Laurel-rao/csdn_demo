@@ -266,3 +266,5 @@
        db.session.delete(user)
        db.session.commit()
     ```
+
+ > 本文代码示例 <a href="https://github.com/Laurel-rao/csdn_demo/tree/master/flask_db">Github</a>
