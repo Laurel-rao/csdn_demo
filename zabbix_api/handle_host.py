@@ -5,7 +5,6 @@ import time
 
 import requests
 
-URL = "http://99.14.46.33/zabbix/api_jsonrpc.php"
 
 def login_zabbix():
     '''
@@ -28,24 +27,26 @@ def login_zabbix():
     return auth
 
 def get_hosts():
-
+    """
+        获取配置信息
+    :return:
+    """
     data = {"jsonrpc":"2.0",
             "method":"host.get",
             "id":1,"auth":None,
             "params":{
-                "selectGroups": "extend",
-                "selectInterfaces": "extend",
-                "selectParentTemplates": [
-                    "templateids",
-                    "name"
-                ],
+                "selectGroups": ["groupid", "name"],
+                "selectParentTemplates": ["templateid","name"],
+                "selectInterfaces": "extend"
             }
     }
-
     auth = login_zabbix()
     data.update({"auth": auth})
     resp = requests.post(url=URL, json=data)
+    # 美化打印
     print(json.dumps(resp.json().get("result"), indent=4, separators=(",", ":")))
+    result = resp.json().get("result")
+    return result
 
 def get_host_group():
     data = {"jsonrpc":"2.0",
@@ -61,82 +62,42 @@ def get_host_group():
     print(json.dumps(resp.json().get("result"), indent=4, separators=(",", ":")))
 
 
-def create_zabbix():
+def create_hosts():
     data = {
-            "method":"host.create",
-            "params":{
-                "host": "My LInux s1erver",
-                # "visiblename": "lalala",
-                "interfaces":[
-                    {"type": 1,
-                     "main":1,
-                     "useip":1,
-                     "ip": "192.168.8.1",
-                     "dns": "",
-                     "port":"10051",
-                     }
-                ],
-                "groups": [
-                    {"groupid":"112321"}
-                ],
-                "templates": [
-                    {
-                        "templateid": "10001"
-                    }
-                ],
-                "inventory": {
-                    "macaddress_a": "01234",
-                    "macaddress_b": "56768"
-                }
-            },
-        "id": 1, "auth": "199d2e96ccc8bc7a0d5c8d6065e1a91f", "jsonrpc": "2.0",
-            }
-    json_data = {
-        "method": "host.create",
-        "params": {
-            "host": "Web Linux server2",
+          "method": "host.create",
+          "params": {
+            "host": "My LInux servers",
+            "visiblename": "192.168.8.1_linux",
             "interfaces": [
-                {
-                    "type": 1,
-                    "main": 1,
-                    "useip": 1,
-                    "ip": "192.168.8.1",
-                    "dns": "",
-                    "port": "10050"
-                }
+              {
+                "type": 1,
+                "main": 1,
+                "useip": 1,
+                "ip": "192.168.8.1",
+                "dns": "",
+                "port": "10051"
+              }
             ],
             "groups": [
-                {
-                    "groupid": "12"
-                }
+              {
+                "groupid": "11"
+              }
             ],
-            # "templates": [
-            #     {
-            #         "templateid": "10001"
-            #     }
-            # ],
-            # "inventory": {
-            #     "macaddress_a": "01234",
-            #     "macaddress_b": "56768"
-            # }
+            "templates": [
+              {
+                "templateid": "10001"
+              }
+            ],
+          },
+          "id": 1,
+          "auth": "199d2e96ccc8bc7a0d5c8d6065e1a91f",
+          "jsonrpc": "2.0"
         }
-    }
     auth = login_zabbix()
-
-    json_base = {
-        "jsonrpc": "2.0",
-        "auth": auth,
-        "id": 1
-    }
     data.update({"auth": auth})
-    json_data.update(json_base)
-    print(data.get("auth"))
-    print(json.dumps(data, indent=4))
     resp = requests.post(url=URL, json=data)
-    print(json.dumps(json_data, indent=4))
-
-
-    return resp.json()
+    print(resp.json())
+    return resp.json().get("result")
 
 def create_hostgroups():
     data = {
@@ -149,25 +110,22 @@ def create_hostgroups():
         "id": 1
     }
     auth = login_zabbix()
-
     data.update({"auth": auth})
     print(data.get("auth"))
     resp = requests.post(url=URL, json=data)
     print(resp.json())
 
 def get_template():
-
     data = {"jsonrpc":"2.0",
             "method":"template.get",
             "id":1,"auth":None,
-            "params":{
-            }
+            "params":{}
     }
-
     auth = login_zabbix()
     data.update({"auth": auth})
     resp = requests.post(url=URL, json=data)
     print(json.dumps(resp.json().get("result"), indent=4, separators=(",", ":")))
 
 if __name__ == '__main__':
-    get_template()
+    URL = "http://99.14.46.33/zabbix/api_jsonrpc.php"
+    create_hosts()
