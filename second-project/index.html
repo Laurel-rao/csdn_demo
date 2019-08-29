@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns:v-on="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <script src="https://cdn.staticfile.org/vue/2.4.2/vue.min.js"></script>
+    <title>second-project</title>
+    <style>
+      .btn{
+        width: 200px;
+        height: 60px;
+        margin: 0 auto;
+        border: 2px solid lawngreen;
+        border-radius: 4px;
+        background: lightcoral;
+        margin-bottom: 20px;
+      }
+
+      div.height-light{
+        background: firebrick;
+      }
+      button{
+        width: 200px;
+        height: 100px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <button v-on:click="btnss()"></button>
+      <input type="file" id="file" style="display:none;" ref="file">
+    </div>
+    <div id="computed">
+      <div class="btn" v-for="cart_data in cart_datas" v-on:click="add(cart_data)" v-bind:class="{'height-light': cart_data.display}">
+        <span>
+          {{ cart_data.title }}
+        </span>
+        <span>
+          {{ cart_data.price }}
+      </span>
+      </div>
+      <h1>{{ count }}</h1>
+      <h2>{{msg}}</h2>
+      <h3>{{reverse_msg}}</h3>
+      <h4>{{now}}</h4>
+      <h4>{{now1()}}</h4>
+      <button @click="turn_off()">切换按钮</button>
+      <p hidden>你好</p>
+    </div>
+    <!-- built files will be auto injected -->
+    <script>
+      var file_select  = new Vue({
+        el: "#app",
+        methods: {
+          btnss: function(){
+            this.$refs.file.click()
+          }
+        }
+      })
+
+      var com = new Vue({
+        el: '#computed',
+        data: {
+          count: 0,
+          msg: 'Hello myfriend',
+          now: 123,
+          cart_datas: [
+            {'title': 'Book', 'price': 200, 'display': false},
+            {'title': 'Bread', 'price': 100, 'display': false},
+            {'title': 'Kindle', 'price': 2900, 'display': false},
+            {'title': 'christmas tree', 'price': 1000, 'display': false},
+          ]
+        },
+        methods:{
+          add: function(data){
+            console.log(data);
+            data.display = !data.display;
+            if (data.display){
+
+            }
+            console.log(this);
+            this.count = 0
+            this.cart_datas.map((val)=>{
+              if (val.display){
+                this.count += val.price;
+              }
+            })
+          },
+          turn_off: function(){
+            var message = this.msg;
+            this.now += 1;
+            console.log(message.split('').reverse().join(''));
+            this.msg = message.split('').reverse().join('')
+          },
+          now1: function(){
+            return Date.now()
+          }
+        },
+        watch:{
+          now: function(){
+            this.now = Date.now()
+          }
+        },
+        computed: {
+          reverse_msg: function(){
+            var message = this.msg;
+            console.log(message.split('').reverse().join(''));
+            return message.split('').reverse().join('')
+          },
+          now1: function(){
+            return Date.now()
+          }
+        }
+
+      })
+    </script>
+  </body>
+</html>
+
+
