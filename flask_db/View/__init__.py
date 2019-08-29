@@ -18,5 +18,5 @@ app.config.from_object(Config)
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 from View.urls import urlAPI
-app.register_blueprint(urlAPI, url_prefix="/all")
+app.register_blueprint(urlAPI)
 from .models import *
