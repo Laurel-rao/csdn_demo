@@ -6,7 +6,30 @@ from flask import Flask, jsonify, request
 from flasgger import Swagger, swag_from
 
 app = Flask(__name__)
-Swagger(app)
+swagger_config = {
+    "headers": [
+        ],
+        "specs": [
+            {
+                "endpoint": 'apispec_2',
+                "route": '/apispecification.json',
+                "rule_filter": lambda rule: True,  # all in
+                "model_filter": lambda tag: True,  # all in
+            }
+        ],
+    "static_url_path": "/flasgger_static",
+    # "static_folder": "static",  # must be set by user
+    "swagger_ui": True,
+    "specs_route": "/doc/"
+}
+template_config = {
+  "info": {
+    "title": "Sample API",
+    "description": "Hahaha, this is a API kingdom!",
+    "version": "1.0.0"
+  }
+}
+Swagger(app, template=template_config, config=swagger_config)
 
 @app.route('/api/<string:language>/', methods=['GET'])
 @swag_from("api_get.yml")
