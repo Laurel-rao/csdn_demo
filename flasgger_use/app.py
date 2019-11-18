@@ -28,8 +28,7 @@ template_config = {
     "description": "Hahaha, this is a API kingdom!",
     "version": "1.0.0"
   }
-}
-Swagger(app, template=template_config, config=swagger_config)
+}Swagger(app, template=template_config, config=swagger_config)
 
 @app.route('/api/<string:language>/', methods=['GET'])
 @swag_from("api_get.yml")
