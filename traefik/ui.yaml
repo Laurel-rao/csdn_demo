@@ -12,5 +12,5 @@ spec:
       paths:
       - path: /
         backend:
-          serviceName: traefik-web-ui
+          serviceName: traefik-ingress-service
           servicePort: 8080
